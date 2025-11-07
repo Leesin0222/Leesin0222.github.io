@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../layouts/BlogLayout.astro';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => 
+  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BlogLayout title="Leesin's Blog" content="">
+  <h1>최근 글</h1>
+  <ul class="post-list">
+    {sortedPosts.map((post) => (
+      <li class="post-item">
+        <a href={`/${post.slug}`} class="post-link">
+          <h2>{post.data.title}</h2>
+          {post.data.description && (
+            <p class="post-description">{post.data.description}</p>
+          )}
+          <time class="post-date">
+            {post.data.pubDate.toLocaleDateString('ko-KR')}
+          </time>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BlogLayout>
+
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .post-item:last-child {
+    border-bottom: none;
+  }
+
+  .post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s;
+  }
+
+  .post-link:hover {
+    transform: translateX(4px);
+  }
+
+  .post-link h2 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+  }
+
+  .post-description {
+    color: var(--text-secondary);
+    margin: 0.5rem 0;
+  }
+
+  .post-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+</style>
+

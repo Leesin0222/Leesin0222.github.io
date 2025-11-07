@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import BlogLayout from '../layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const content = post.body;
+---
+
+<BlogLayout title={post.data.title} content={content}>
+  <h1>{post.data.title}</h1>
+  <div class="post-meta">
+    <time datetime={post.data.pubDate.toISOString()}>
+      {post.data.pubDate.toLocaleDateString('ko-KR')}
+    </time>
+    {post.data.tags && (
+      <div class="tags">
+        {post.data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+  </div>
+  <Content />
+</BlogLayout>
+
+<style>
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: var(--bg-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+  }
+</style>
+

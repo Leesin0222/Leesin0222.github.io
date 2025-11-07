@@ -1,0 +1,26 @@
+---
+interface Props {
+  items: Array<{
+    id: string;
+    text: string;
+    level: number;
+    children?: Props['items'];
+  }>;
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="toc-list">
+  {items.map((item) => (
+    <li class="toc-item">
+      <a href={`#${item.id}`} class="toc-link">{item.text}</a>
+      {item.children && item.children.length > 0 && (
+        <div class="toc-children">
+          <TOCList items={item.children} />
+        </div>
+      )}
+    </li>
+  ))}
+</ul>
+

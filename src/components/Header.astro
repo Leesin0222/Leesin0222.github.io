@@ -1,0 +1,125 @@
+---
+import { getCollection } from 'astro:content';
+import Search from './Search.astro';
+
+const siteTitle = "Leesin's Blog";
+const links = [
+  { name: "GitHub", url: "https://github.com/Leesin0222", icon: "🔗" },
+  { name: "About", url: "/about", icon: "👤" },
+];
+
+const posts = await getCollection('blog');
+const postsData = posts.map(post => ({
+  slug: post.slug,
+  title: post.data.title,
+  content: post.body,
+}));
+---
+
+<header class="header">
+  <div class="header-container">
+    <h1 class="blog-title">
+      <a href="/">{siteTitle}</a>
+    </h1>
+    
+    <div class="header-right">
+      <Search posts={postsData} />
+      <nav class="header-links">
+        {links.map((link) => (
+          <a href={link.url} class="header-link" title={link.name}>
+            <span class="icon">{link.icon}</span>
+            <span class="link-text">{link.name}</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  :global(html[data-theme="dark"]) .header {
+    background: rgba(20, 20, 20, 0.9);
+  }
+
+  .header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .blog-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .blog-title a {
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: color 0.2s;
+  }
+
+  .blog-title a:hover {
+    color: var(--accent-color);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .header-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .header-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .header-link:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  .icon {
+    font-size: 1.2rem;
+  }
+
+  .link-text {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .link-text {
+      display: none;
+    }
+    .header {
+      padding: 1rem;
+    }
+  }
+</style>
+
