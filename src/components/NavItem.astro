@@ -23,7 +23,7 @@ const hasChildren = node.children && node.children.length > 0;
     <div class="nav-children">
       <ul class="nav-list">
         {node.children!.map((child) => (
-          <NavItem node={child} />
+          <Astro.self node={child} />
         ))}
       </ul>
     </div>

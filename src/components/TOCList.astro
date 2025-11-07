@@ -17,7 +17,7 @@ const { items } = Astro.props;
       <a href={`#${item.id}`} class="toc-link">{item.text}</a>
       {item.children && item.children.length > 0 && (
         <div class="toc-children">
-          <TOCList items={item.children} />
+          <Astro.self items={item.children} />
         </div>
       )}
     </li>
