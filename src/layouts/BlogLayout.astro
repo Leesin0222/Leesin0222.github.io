@@ -18,6 +18,8 @@ const { title, content } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Leesin's Blog" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <link rel="stylesheet" href="/styles/global.css" />
     <script is:inline>
       (function () {
@@ -78,54 +80,147 @@ const { title, content } = Astro.props;
   .post-content {
     line-height: 1.85;
     color: var(--text-primary);
+    font-size: 1.02rem;
   }
 
   :global(.post-content h1) {
-    font-size: 2.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    font-size: clamp(2.25rem, 3vw, 2.75rem);
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
     font-weight: 700;
     color: var(--text-primary);
   }
 
   :global(.post-content h2) {
-    font-size: 2rem;
-    margin-top: 2rem;
+    font-size: clamp(1.65rem, 2.5vw, 2.1rem);
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
-    font-weight: 600;
+    font-weight: 650;
     color: var(--text-primary);
   }
 
   :global(.post-content h3) {
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    margin-top: 2rem;
+    margin-bottom: 0.9rem;
     font-weight: 600;
     color: var(--text-primary);
   }
 
   :global(.post-content p) {
-    margin-bottom: 1rem;
+    margin-bottom: 1.15rem;
+    color: var(--text-primary);
+    letter-spacing: -0.002em;
   }
 
   :global(.post-content code) {
-    background: var(--bg-secondary);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
+    background: var(--surface-muted);
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
     font-size: 0.9em;
+    border: 1px solid color-mix(in srgb, var(--surface-border) 65%, transparent);
   }
 
   :global(.post-content pre) {
-    background: var(--bg-secondary);
-    padding: 1rem;
-    border-radius: 8px;
+    background: var(--surface-muted);
+    padding: 1.2rem 1.35rem;
+    border-radius: 14px;
     overflow-x: auto;
-    margin: 1.5rem 0;
+    margin: 1.75rem 0;
+    border: 1px solid color-mix(in srgb, var(--surface-border) 65%, transparent);
   }
 
   :global(.post-content pre code) {
     background: none;
     padding: 0;
+    font-size: 0.95rem;
+  }
+
+  :global(.post-content a) {
+    color: var(--accent-color);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent-color) 35%, transparent);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  :global(.post-content a:hover) {
+    color: color-mix(in srgb, var(--accent-color) 75%, white 25%);
+    border-bottom-color: var(--accent-color);
+  }
+
+  :global(.post-content strong) {
+    font-weight: 650;
+    color: var(--text-primary);
+  }
+
+  :global(.post-content em) {
+    font-style: italic;
+    color: color-mix(in srgb, var(--text-secondary) 70%, var(--text-primary) 30%);
+  }
+
+  :global(.post-content ul),
+  :global(.post-content ol) {
+    margin: 1.15rem 0;
+    padding-left: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  :global(.post-content li) {
+    margin-bottom: 0.55rem;
+  }
+
+  :global(.post-content ul li::marker) {
+    color: color-mix(in srgb, var(--accent-color) 70%, var(--text-secondary) 30%);
+  }
+
+  :global(.post-content blockquote) {
+    margin: 1.5rem 0;
+    padding: 1.1rem 1.35rem;
+    background: var(--surface-alt);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 14px;
+    color: color-mix(in srgb, var(--text-secondary) 80%, var(--text-primary) 20%);
+  }
+
+  :global(.post-content hr) {
+    border: none;
+    border-top: 1px solid var(--surface-border);
+    margin: 2.5rem 0;
+  }
+
+  :global(.post-content table) {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.75rem 0;
+    font-size: 0.95rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  :global(.post-content th),
+  :global(.post-content td) {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--surface-border) 65%, transparent);
+    text-align: left;
+  }
+
+  :global(.post-content th) {
+    background: var(--surface-muted);
+    font-weight: 600;
+  }
+
+  :global(.anchor-link) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :global(.anchor-link:hover) {
+    color: var(--accent-color);
   }
 
   @media (max-width: 1200px) {

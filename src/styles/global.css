@@ -83,15 +83,22 @@ body {
   color: var(--text-primary);
   line-height: 1.7;
   transition: background 0.3s ease, color 0.3s ease;
+  font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-feature-settings: 'liga' 1, 'kern' 1;
 }
 
 a {
-  color: var(--accent-color);
+  color: inherit;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--accent-color);
+}
+
+.anchor-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .pill-label {
