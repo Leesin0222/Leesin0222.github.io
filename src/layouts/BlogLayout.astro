@@ -43,20 +43,26 @@ const { title, content } = Astro.props;
 
   .main-container {
     display: flex;
-    max-width: 1400px;
+    max-width: 1240px;
     margin: 0 auto;
-    min-height: calc(100vh - 80px);
+    padding: 0 2.5rem 4rem;
+    min-height: calc(100vh - 72px);
+    gap: 2.5rem;
   }
 
   .content-area {
     flex: 1;
-    padding: 2rem 3rem;
-    max-width: 800px;
+    padding: 2.5rem 3rem;
+    max-width: 760px;
     margin: 0 auto;
+    background: var(--content-background);
+    border-radius: 24px;
+    box-shadow: var(--layer-shadow);
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
   }
 
   .post-content {
-    line-height: 1.8;
+    line-height: 1.85;
     color: var(--text-primary);
   }
 
@@ -108,9 +114,38 @@ const { title, content } = Astro.props;
     padding: 0;
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
+    .main-container {
+      padding: 0 1.75rem 3rem;
+      gap: 1.5rem;
+    }
+
     .content-area {
-      padding: 1.5rem;
+      padding: 2rem 2.25rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .main-container {
+      padding: 0 1.25rem 3rem;
+    }
+
+    .content-area {
+      padding: 1.75rem 1.8rem;
+      border-radius: 20px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-container {
+      padding: 0 1rem 2.5rem;
+    }
+
+    .content-area {
+      padding: 1.5rem 1.35rem;
+      border-radius: 16px;
+      box-shadow: none;
+      border: none;
     }
   }
 </style>

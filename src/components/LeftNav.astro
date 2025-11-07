@@ -64,15 +64,15 @@ const postTree = buildPostTree(posts);
 
 <style>
   .left-nav {
-    width: 250px;
-    min-width: 250px;
-    height: calc(100vh - 80px);
+    width: 220px;
+    min-width: 220px;
+    height: calc(100vh - 72px);
     overflow-y: auto;
-    padding: 1.5rem 1rem;
-    border-right: 1px solid var(--border-color);
-    background: var(--bg-secondary);
+    padding: 1.75rem 0.75rem;
+    border-right: 1px solid color-mix(in srgb, var(--border-color) 60%, transparent);
+    background: transparent;
     position: sticky;
-    top: 80px;
+    top: 72px;
   }
 
   .nav-tree {
@@ -86,18 +86,19 @@ const postTree = buildPostTree(posts);
   }
 
   .nav-item {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
 
   .nav-link-wrapper {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.45rem;
+    padding: 0.1rem 0.2rem;
   }
 
   .nav-toggle {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,7 +106,7 @@ const postTree = buildPostTree(posts);
     border: none;
     background: none;
     color: var(--text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     transition: transform 0.2s;
     flex-shrink: 0;
   }
@@ -120,32 +121,32 @@ const postTree = buildPostTree(posts);
 
   .nav-link {
     flex: 1;
-    padding: 0.5rem 0.75rem;
+    padding: 0.45rem 0.65rem;
     text-decoration: none;
     color: var(--text-secondary);
-    border-radius: 4px;
-    font-size: 0.9rem;
-    transition: all 0.2s;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
     display: block;
   }
 
   .nav-link:hover {
-    background: var(--bg-primary);
+    background: color-mix(in srgb, var(--bg-secondary) 70%, transparent);
     color: var(--text-primary);
   }
 
   .nav-link.active {
-    background: var(--accent-color);
-    color: white;
-    font-weight: 500;
+    background: color-mix(in srgb, var(--accent-color) 25%, transparent);
+    color: var(--accent-color);
+    font-weight: 600;
   }
 
   .nav-children {
-    margin-left: 1.5rem;
-    margin-top: 0.25rem;
+    margin-left: 1.25rem;
+    margin-top: 0.2rem;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.25s ease;
   }
 
   .nav-children.expanded {
@@ -153,8 +154,8 @@ const postTree = buildPostTree(posts);
   }
 
   .nav-children .nav-list {
-    border-left: 1px solid var(--border-color);
-    padding-left: 1rem;
+    border-left: 1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+    padding-left: 0.9rem;
   }
 
   @media (max-width: 1024px) {
