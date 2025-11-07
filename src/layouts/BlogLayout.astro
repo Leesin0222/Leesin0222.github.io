@@ -19,6 +19,20 @@ const { title, content } = Astro.props;
     <meta name="description" content="Leesin's Blog" />
     <title>{title}</title>
     <link rel="stylesheet" href="/styles/global.css" />
+    <script is:inline>
+      (function () {
+        try {
+          const saved = localStorage.getItem('theme-preference');
+          if (saved === 'light' || saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', saved);
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
+        } catch (error) {
+          console.warn('Theme preference unavailable', error);
+        }
+      })();
+    </script>
   </head>
   <body>
     <Header />

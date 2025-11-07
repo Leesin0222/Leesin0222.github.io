@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { posts } = Astro.props;
-const postsJson = JSON.stringify(posts);
+const postsJson = JSON.stringify(posts).replace(/</g, '\\u003c');
 ---
 
 <div class="search-wrapper">
@@ -21,50 +21,66 @@ const postsJson = JSON.stringify(posts);
   <div id="search-results" class="search-results"></div>
 </div>
 
-<script define:vars={{ postsJson }}>
-  const posts = JSON.parse(postsJson);
-  
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('search-input') as HTMLInputElement;
-      const searchResults = document.getElementById('search-results') as HTMLDivElement;
+<script type="application/json" id="search-posts" is:inline>{postsJson}</script>
+<script is:inline>
+  const dataEl = document.getElementById('search-posts');
+  const posts = dataEl ? JSON.parse(dataEl.textContent || '[]') : [];
+  if (dataEl) dataEl.remove();
 
-      if (searchInput && searchResults) {
-        searchInput.addEventListener('input', (e) => {
-          const query = (e.target as HTMLInputElement).value.toLowerCase();
-          
-          if (query.length < 2) {
-            searchResults.innerHTML = '';
-            searchResults.classList.remove('active');
-            return;
-          }
+  function bindSearch() {
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
 
-          const results = posts.filter((post: any) => 
-            post.title.toLowerCase().includes(query) ||
-            post.content.toLowerCase().includes(query)
-          ).slice(0, 5);
+    if (!searchInput || !searchResults) return;
 
-          if (results.length > 0) {
-            searchResults.innerHTML = results.map((post: any) => `
-              <a href="/${post.slug}" class="search-result-item">
-                <div class="search-result-title">${post.title}</div>
-              </a>
-            `).join('');
-            searchResults.classList.add('active');
-          } else {
-            searchResults.innerHTML = '<div class="search-no-results">검색 결과가 없습니다</div>';
-            searchResults.classList.add('active');
-          }
-        });
+    const renderResults = (items) => {
+      if (items.length === 0) {
+        searchResults.innerHTML = '<div class="search-no-results">검색 결과가 없습니다</div>';
+        searchResults.classList.add('active');
+        return;
+      }
 
-        // 외부 클릭시 닫기
-        document.addEventListener('click', (e) => {
-          if (!searchInput.contains(e.target as Node) && !searchResults.contains(e.target as Node)) {
-            searchResults.classList.remove('active');
-          }
-        });
+      searchResults.innerHTML = items
+        .map((post) => `
+          <a href="/${post.slug}" class="search-result-item">
+            <div class="search-result-title">${post.title}</div>
+          </a>
+        `)
+        .join('');
+
+      searchResults.classList.add('active');
+    };
+
+    searchInput.addEventListener('input', (event) => {
+      const query = event.target.value.trim().toLowerCase();
+
+      if (query.length < 1) {
+        searchResults.innerHTML = '';
+        searchResults.classList.remove('active');
+        return;
+      }
+
+      const matches = posts
+        .filter((post) =>
+          post.title.toLowerCase().includes(query) ||
+          post.content.toLowerCase().includes(query)
+        )
+        .slice(0, 6);
+
+      renderResults(matches);
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!searchResults.contains(event.target) && !searchInput.contains(event.target)) {
+        searchResults.classList.remove('active');
       }
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindSearch, { once: true });
+  } else {
+    bindSearch();
   }
 </script>
 
