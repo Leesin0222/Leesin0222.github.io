@@ -17,8 +17,7 @@ const postTree = buildPostTree(posts);
   </nav>
 </aside>
 
-<script>
-  // 현재 경로에 따라 활성화
+<script is:inline>
   function setActiveNav() {
     const currentPath = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -27,7 +26,6 @@ const postTree = buildPostTree(posts);
       const href = link.getAttribute('href')?.replace(/^\//, '').replace(/\/$/, '');
       if (href === currentPath) {
         link.classList.add('active');
-        // 부모 요소들도 확장
         let parent = link.closest('.nav-item');
         while (parent) {
           const toggle = parent.querySelector('.nav-toggle');
@@ -42,24 +40,27 @@ const postTree = buildPostTree(posts);
     });
   }
 
-  // 토글 기능
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      setActiveNav();
-      
-      document.querySelectorAll('.nav-toggle').forEach((toggle) => {
-        toggle.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const item = toggle.closest('.nav-item');
-          const children = item?.querySelector('.nav-children');
-          if (children) {
-            toggle.classList.toggle('expanded');
-            children.classList.toggle('expanded');
-          }
-        });
+  function initNav() {
+    setActiveNav();
+    
+    document.querySelectorAll('.nav-toggle').forEach((toggle) => {
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const item = toggle.closest('.nav-item');
+        const children = item?.querySelector('.nav-children');
+        if (children) {
+          toggle.classList.toggle('expanded');
+          children.classList.toggle('expanded');
+        }
       });
     });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNav);
+  } else {
+    initNav();
   }
 </script>
 

@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import LeftNav from '../components/LeftNav.astro';
 import TableOfContents from '../components/TableOfContents.astro';
+import { siteConfig } from '../config/site';
 
 interface Props {
   title: string;
@@ -17,7 +18,7 @@ const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '/index.
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Leesin's Blog" />
+    <meta name="description" content={siteConfig.description} />
     <title>{title}</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />

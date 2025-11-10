@@ -23,8 +23,7 @@ const toc = generateTOC(content);
   </nav>
 </aside>
 
-<script>
-  // 스크롤시 현재 섹션 하이라이트
+<script is:inline>
   function updateActiveTOC() {
     const headings = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]');
     const tocLinks = document.querySelectorAll('.toc-link');
@@ -45,32 +44,35 @@ const toc = generateTOC(content);
     });
   }
 
-  // 부드러운 스크롤
-  if (typeof window !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.toc-link').forEach((link) => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const href = link.getAttribute('href');
-          if (href) {
-            const target = document.querySelector(href);
-            if (target) {
-              const headerOffset = 100;
-              const elementPosition = target.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  function initTOC() {
+    document.querySelectorAll('.toc-link').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        if (href) {
+          const target = document.querySelector(href);
+          if (target) {
+            const headerOffset = 100;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              });
-            }
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
           }
-        });
+        }
       });
-
-      window.addEventListener('scroll', updateActiveTOC);
-      updateActiveTOC();
     });
+
+    window.addEventListener('scroll', updateActiveTOC);
+    updateActiveTOC();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTOC);
+  } else {
+    initTOC();
   }
 </script>
 

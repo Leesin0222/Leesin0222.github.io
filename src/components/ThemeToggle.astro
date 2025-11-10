@@ -1,0 +1,255 @@
+---
+---
+
+<div class="theme-toggle" data-theme-toggle>
+  <button
+    id="theme-button"
+    class="theme-toggle-button"
+    type="button"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+  >
+    <span class="theme-label">모드</span>
+    <span id="theme-selection" class="theme-selection">기본</span>
+    <svg class="theme-caret" viewBox="0 0 12 12" aria-hidden="true">
+      <path d="M3 4.5 6 7.5 9 4.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+  <ul id="theme-dropdown" class="theme-dropdown" role="listbox">
+    <li>
+      <button type="button" class="theme-option" data-theme-option="system" role="option">
+        <div class="theme-option-text">
+          <span class="theme-option-title">기본</span>
+          <span class="theme-option-desc">시스템 설정 따르기</span>
+        </div>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="theme-option" data-theme-option="light" role="option">
+        <div class="theme-option-text">
+          <span class="theme-option-title">라이트</span>
+          <span class="theme-option-desc">밝은 테마</span>
+        </div>
+      </button>
+    </li>
+    <li>
+      <button type="button" class="theme-option" data-theme-option="dark" role="option">
+        <div class="theme-option-text">
+          <span class="theme-option-title">다크</span>
+          <span class="theme-option-desc">어두운 테마</span>
+        </div>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<script is:inline>
+  const STORAGE_KEY = 'theme-preference';
+  const LABEL_MAP = {
+    system: '기본',
+    light: '라이트',
+    dark: '다크',
+  };
+
+  function applyTheme(theme, { persist = true } = {}) {
+    const root = document.documentElement;
+
+    if (theme === 'light') {
+      root.setAttribute('data-theme', 'light');
+    } else if (theme === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+    } else {
+      root.removeAttribute('data-theme');
+    }
+
+    if (persist) {
+      localStorage.setItem(STORAGE_KEY, theme);
+    }
+
+    const label = document.getElementById('theme-selection');
+    const dropdown = document.getElementById('theme-dropdown');
+
+    if (label) label.textContent = LABEL_MAP[theme];
+    if (dropdown) {
+      dropdown.querySelectorAll('[data-theme-option]').forEach((option) => {
+        option.classList.toggle('selected', option.getAttribute('data-theme-option') === theme);
+      });
+    }
+  }
+
+  function initThemeSwitcher() {
+    const button = document.getElementById('theme-button');
+    const dropdown = document.getElementById('theme-dropdown');
+    if (!button || !dropdown) return;
+
+    const storedTheme = localStorage.getItem(STORAGE_KEY) || 'system';
+    
+    const label = document.getElementById('theme-selection');
+    if (label) label.textContent = LABEL_MAP[storedTheme];
+    
+    dropdown.querySelectorAll('[data-theme-option]').forEach((option) => {
+      option.classList.toggle('selected', option.getAttribute('data-theme-option') === storedTheme);
+    });
+
+    const toggleDropdown = (expand) => {
+      const shouldExpand = typeof expand === 'boolean' ? expand : button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', shouldExpand ? 'true' : 'false');
+      dropdown.classList.toggle('open', shouldExpand);
+    };
+
+    button.addEventListener('click', () => {
+      toggleDropdown();
+    });
+
+    dropdown.querySelectorAll('[data-theme-option]').forEach((option) => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const theme = option.getAttribute('data-theme-option') || 'system';
+        applyTheme(theme);
+        toggleDropdown(false);
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+        toggleDropdown(false);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        toggleDropdown(false);
+        button.focus();
+      }
+    });
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', () => {
+      const saved = localStorage.getItem(STORAGE_KEY) || 'system';
+      if (saved === 'system') {
+        applyTheme('system', { persist: false });
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeSwitcher);
+  } else {
+    initThemeSwitcher();
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    position: relative;
+  }
+
+  .theme-toggle-button {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  }
+
+  .theme-toggle-button:hover,
+  .theme-toggle-button[aria-expanded="true"] {
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+    background: color-mix(in srgb, var(--bg-primary) 80%, var(--accent-color) 8%);
+  }
+
+  .theme-label {
+    font-weight: 600;
+  }
+
+  .theme-selection {
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .theme-caret {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    opacity: 0.7;
+  }
+
+  .theme-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    min-width: 180px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--layer-shadow);
+    padding: 0.4rem;
+    list-style: none;
+    margin: 0;
+    display: none;
+  }
+
+  .theme-dropdown.open {
+    display: block;
+  }
+
+  .theme-option {
+    width: 100%;
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+  }
+
+  .theme-option:hover,
+  .theme-option.selected {
+    background: color-mix(in srgb, var(--bg-secondary) 80%, var(--accent-color) 10%);
+    color: var(--text-primary);
+  }
+
+  .theme-option-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .theme-option-title {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .theme-option-desc {
+    font-size: 0.78rem;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .theme-label {
+      display: none;
+    }
+
+    .theme-selection {
+      font-size: 0.8rem;
+    }
+
+    .theme-toggle-button {
+      padding: 0.4rem 0.6rem;
+    }
+  }
+</style>
+
