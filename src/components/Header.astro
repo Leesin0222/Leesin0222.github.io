@@ -32,7 +32,6 @@ const postsData = posts.map(post => ({
           aria-haspopup="listbox"
           aria-expanded="false"
         >
-          <span id="theme-icon" class="theme-icon" aria-hidden="true">🌗</span>
           <span class="theme-label">모드</span>
           <span id="theme-selection" class="theme-selection">기본</span>
           <svg class="theme-caret" viewBox="0 0 12 12" aria-hidden="true">
@@ -42,7 +41,6 @@ const postsData = posts.map(post => ({
         <ul id="theme-dropdown" class="theme-dropdown" role="listbox">
           <li>
             <button type="button" class="theme-option" data-theme-option="system" role="option">
-              <span class="theme-option-icon" aria-hidden="true">🌗</span>
               <div class="theme-option-text">
                 <span class="theme-option-title">기본</span>
                 <span class="theme-option-desc">시스템 설정 따르기</span>
@@ -51,7 +49,6 @@ const postsData = posts.map(post => ({
           </li>
           <li>
             <button type="button" class="theme-option" data-theme-option="light" role="option">
-              <span class="theme-option-icon" aria-hidden="true">☀️</span>
               <div class="theme-option-text">
                 <span class="theme-option-title">라이트</span>
                 <span class="theme-option-desc">밝은 테마</span>
@@ -60,7 +57,6 @@ const postsData = posts.map(post => ({
           </li>
           <li>
             <button type="button" class="theme-option" data-theme-option="dark" role="option">
-              <span class="theme-option-icon" aria-hidden="true">🌙</span>
               <div class="theme-option-text">
                 <span class="theme-option-title">다크</span>
                 <span class="theme-option-desc">어두운 테마</span>
@@ -88,11 +84,6 @@ const postsData = posts.map(post => ({
     light: '라이트',
     dark: '다크',
   };
-  const ICON_MAP = {
-    system: '🌗',
-    light: '☀️',
-    dark: '🌙',
-  };
 
   function applyTheme(theme, { persist = true } = {}) {
     const root = document.documentElement;
@@ -110,11 +101,9 @@ const postsData = posts.map(post => ({
     }
 
     const label = document.getElementById('theme-selection');
-    const icon = document.getElementById('theme-icon');
     const dropdown = document.getElementById('theme-dropdown');
 
     if (label) label.textContent = LABEL_MAP[theme];
-    if (icon) icon.textContent = ICON_MAP[theme];
     if (dropdown) {
       dropdown.querySelectorAll('[data-theme-option]').forEach((option) => {
         option.classList.toggle('selected', option.getAttribute('data-theme-option') === theme);
@@ -127,8 +116,15 @@ const postsData = posts.map(post => ({
     const dropdown = document.getElementById('theme-dropdown');
     if (!button || !dropdown) return;
 
+    // 초기 테마 적용 (이미 head에서 적용했지만 다시 확인)
     const storedTheme = localStorage.getItem(STORAGE_KEY) || 'system';
     applyTheme(storedTheme, { persist: false });
+    
+    // 현재 선택된 옵션 표시
+    const currentOption = dropdown.querySelector(`[data-theme-option="${storedTheme}"]`);
+    if (currentOption) {
+      currentOption.classList.add('selected');
+    }
 
     const toggleDropdown = (expand) => {
       const shouldExpand = typeof expand === 'boolean' ? expand : button.getAttribute('aria-expanded') !== 'true';
@@ -141,7 +137,9 @@ const postsData = posts.map(post => ({
     });
 
     dropdown.querySelectorAll('[data-theme-option]').forEach((option) => {
-      option.addEventListener('click', () => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         const theme = option.getAttribute('data-theme-option') || 'system';
         applyTheme(theme);
         toggleDropdown(false);
@@ -249,11 +247,6 @@ const postsData = posts.map(post => ({
     background: color-mix(in srgb, var(--bg-primary) 80%, var(--accent-color) 8%);
   }
 
-  .theme-icon {
-    font-size: 1rem;
-    line-height: 1;
-  }
-
   .theme-label {
     font-weight: 600;
   }
@@ -307,10 +300,6 @@ const postsData = posts.map(post => ({
   .theme-option.selected {
     background: color-mix(in srgb, var(--bg-secondary) 80%, var(--accent-color) 10%);
     color: var(--text-primary);
-  }
-
-  .theme-option-icon {
-    font-size: 1.1rem;
   }
 
   .theme-option-text {
