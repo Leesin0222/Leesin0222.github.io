@@ -6,7 +6,7 @@ import { siteConfig } from '../config/site';
 <header class="header">
   <div class="header-container">
     <h1 class="site-title">
-      <a href="/">{siteConfig.title}</a>
+      <a href="/#">{siteConfig.title}</a>
     </h1>
 
     <div class="header-right">
@@ -39,7 +39,7 @@ import { siteConfig } from '../config/site';
   }
 
   .header-container {
-    max-width: 1400px;
+    max-width: 960px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -72,25 +72,31 @@ import { siteConfig } from '../config/site';
 
   .header-links {
     display: flex;
-    gap: 0.4rem;
+    gap: 1.5rem;
     align-items: center;
   }
 
   .header-link {
     text-decoration: none;
     color: var(--text-secondary);
-    padding: 0.45rem 0.85rem;
-    border-radius: 999px;
-    transition: all 0.2s ease;
+    padding: 0.5rem 0;
     font-size: 0.9rem;
-    border: 1px solid transparent;
     font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .header-link:hover {
-    background: color-mix(in srgb, var(--bg-secondary) 92%, var(--accent-color) 12%);
     color: var(--text-primary);
-    border-color: color-mix(in srgb, var(--accent-color) 45%, transparent);
+    border-bottom-color: var(--accent-color);
+  }
+
+  .header-link:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
   }
 
   @media (max-width: 1024px) {

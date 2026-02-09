@@ -11,12 +11,14 @@ export const siteConfig = {
     email: "example@yongjincompany.com",
     label: "문의하기 (예시)",
   },
+  copyright: "© 2026 yongjincompany",
   activities: [
     {
       id: "uback",
       name: "유백 (UBACK)",
       description: "음악 아티스트로 활동 중입니다.",
       url: "#",
+      ctaLabel: "들어가기",
       image: "/placeholder-card.svg",
     },
     {
@@ -24,6 +26,7 @@ export const siteConfig = {
       name: "Uchat",
       description: "미연시 게임을 만들고 있습니다.",
       url: "#",
+      ctaLabel: "자세히 보기",
       image: "/placeholder-card.svg",
     },
   ],

@@ -5,12 +5,21 @@ import { siteConfig } from '../config/site';
 
 <BlogLayout title={siteConfig.title}>
   <section id="hero" class="hero">
-    <p class="hero-motto">{siteConfig.motto}</p>
-    <p class="hero-brand">{siteConfig.title}</p>
+    <div class="hero-inner">
+      <p class="hero-motto">{siteConfig.motto}</p>
+      <p class="hero-brand">{siteConfig.title}</p>
+      <a href="#about" class="hero-scroll" aria-label="소개로 스크롤">
+        <span class="hero-scroll-text">소개 보기</span>
+        <svg class="hero-scroll-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 5v14M19 12l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
   </section>
 
   <section id="about" class="section about">
     <div class="section-inner">
+      <p class="section-label">About</p>
       <h2 class="section-title">소개</h2>
       <p class="about-lead">주체는 모두 이용진에게 있습니다.</p>
       <p class="about-text">
@@ -23,18 +32,22 @@ import { siteConfig } from '../config/site';
 
   <section id="activity" class="section activity">
     <div class="section-inner">
+      <p class="section-label">Activity</p>
       <h2 class="section-title">활동</h2>
       <p class="activity-subtitle">지금 하고 있는 것</p>
       <div class="activity-grid">
         {siteConfig.activities.map((item) => (
           <a href={item.url} class="activity-card">
-            <div class="activity-card-image">
+            <div class="activity-card-image-wrap">
               {item.image ? (
-                <img src={item.image} alt={`${item.name} (예시)`} width="120" height="120" />
+                <img src={item.image} alt={`${item.name} (예시)`} width="400" height="225" class="activity-card-image" />
               ) : null}
             </div>
-            <h3 class="activity-card-title">{item.name}</h3>
-            <p class="activity-card-desc">{item.description}</p>
+            <div class="activity-card-body">
+              <h3 class="activity-card-title">{item.name}</h3>
+              <p class="activity-card-desc">{item.description}</p>
+              <span class="activity-card-cta">{item.ctaLabel}</span>
+            </div>
           </a>
         ))}
       </div>
@@ -43,68 +56,124 @@ import { siteConfig } from '../config/site';
 
   <footer id="contact" class="footer">
     <div class="footer-inner">
-      <p class="footer-brand">{siteConfig.title}</p>
+      <div class="footer-brand-row">
+        <p class="footer-brand">{siteConfig.title}</p>
+        <p class="footer-motto">{siteConfig.motto}</p>
+      </div>
       <a href={`mailto:${siteConfig.contact.email}`} class="footer-contact">
         {siteConfig.contact.label}
       </a>
+      <p class="footer-copyright">{siteConfig.copyright}</p>
     </div>
   </footer>
 </BlogLayout>
 
 <style>
   .hero {
-    min-height: 60vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(180deg, var(--page-background) 0%, color-mix(in srgb, var(--accent-color) 8%, var(--page-background)) 100%);
+    padding: 5rem 2rem 4rem;
+    background: var(--hero-bg);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--accent-color) 12%, transparent), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 0%, color-mix(in srgb, var(--accent-color) 8%, transparent), transparent),
+      radial-gradient(ellipse 60% 40% at 0% 0%, color-mix(in srgb, var(--accent-color) 6%, transparent), transparent);
+  }
+
+  .hero-inner {
+    max-width: 640px;
+    text-align: center;
   }
 
   .hero-motto {
-    margin: 0 0 0.75rem;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin: 0 0 1rem;
+    font-size: clamp(1.75rem, 4vw, 3rem);
     font-weight: 700;
-    text-align: center;
+    line-height: 1.25;
     color: var(--text-primary);
-    line-height: 1.4;
   }
 
   .hero-brand {
-    margin: 0;
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    margin: 0 0 2.5rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 600;
+    letter-spacing: 0.05em;
     color: var(--text-secondary);
   }
 
+  .hero-scroll {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .hero-scroll:hover {
+    color: var(--accent-color);
+  }
+
+  .hero-scroll:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 4px;
+  }
+
+  .hero-scroll-icon {
+    width: 20px;
+    height: 20px;
+  }
+
   .section {
-    padding: 4rem 2rem;
+    padding: 5rem 2rem;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section.about {
+    background: var(--page-background);
+  }
+
+  .section.activity {
+    background: var(--section-alt-bg);
   }
 
   .section-inner {
-    max-width: 720px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
   }
 
   .section-title {
     margin: 0 0 1.5rem;
-    font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+    font-size: clamp(1.75rem, 2.5vw, 2rem);
     font-weight: 700;
+    line-height: 1.25;
     color: var(--text-primary);
   }
 
   .about-lead {
-    margin: 0 0 1rem;
-    font-size: 1.2rem;
-    font-weight: 600;
+    margin: 0 0 1.25rem;
+    padding-left: 1rem;
+    border-left: 4px solid var(--accent-color);
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--text-primary);
+    line-height: 1.5;
   }
 
   .about-text {
     margin: 0;
+    font-size: 1rem;
     color: var(--text-secondary);
-    line-height: 1.8;
+    line-height: 1.75;
   }
 
   .about-text strong {
@@ -119,45 +188,59 @@ import { siteConfig } from '../config/site';
 
   .activity-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
   }
 
   .activity-card {
-    display: block;
-    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
     background: var(--content-background);
-    border-radius: 20px;
+    border-radius: 16px;
     border: 1px solid var(--border-color);
     box-shadow: var(--layer-shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     color: inherit;
     text-decoration: none;
   }
 
   .activity-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 40px rgba(22, 30, 45, 0.12);
+    transform: translateY(-4px);
+    box-shadow: var(--layer-shadow-hover);
+    border-color: color-mix(in srgb, var(--accent-color) 35%, var(--border-color));
   }
 
-  .activity-card-image {
-    margin-bottom: 1.25rem;
-    width: 80px;
-    height: 80px;
+  .activity-card:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+
+  .activity-card-image-wrap {
+    aspect-ratio: 16 / 9;
+    background: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
-  .activity-card-image img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    color: var(--text-secondary);
+  .activity-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .activity-card-body {
+    padding: 1.5rem 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
   }
 
   .activity-card-title {
-    margin: 0 0 0.5rem;
+    margin: 0;
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -165,60 +248,111 @@ import { siteConfig } from '../config/site';
 
   .activity-card-desc {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
     color: var(--text-secondary);
     line-height: 1.6;
+    flex: 1;
+  }
+
+  .activity-card-cta {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: var(--surface-accent);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+    border-radius: 8px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    min-height: 44px;
+    min-width: 44px;
+    box-sizing: border-box;
+  }
+
+  .activity-card:hover .activity-card-cta {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
   }
 
   .footer {
-    padding: 3rem 2rem;
-    background: var(--bg-secondary);
+    padding: 4rem 2rem 3rem;
+    background: var(--footer-bg);
     border-top: 1px solid var(--border-color);
   }
 
   .footer-inner {
-    max-width: 720px;
+    max-width: var(--content-max-width);
     margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .footer-brand-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   .footer-brand {
     margin: 0;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--footer-text);
+  }
+
+  .footer-motto {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--footer-text-muted);
   }
 
   .footer-contact {
     color: var(--accent-color);
     font-weight: 500;
+    font-size: 0.9375rem;
     transition: color 0.2s ease;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .footer-contact:hover {
-    color: var(--text-primary);
+    color: var(--footer-text);
+  }
+
+  .footer-copyright {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--footer-text-muted);
   }
 
   @media (max-width: 768px) {
     .hero {
-      min-height: 50vh;
-      padding: 3rem 1.5rem;
+      min-height: 60vh;
+      padding: 3rem 1.25rem 3rem;
+    }
+
+    .hero-brand {
+      margin-bottom: 2rem;
     }
 
     .section {
-      padding: 3rem 1.5rem;
+      padding: 3rem 1.25rem;
     }
 
     .activity-grid {
       grid-template-columns: 1fr;
     }
 
-    .footer-inner {
-      flex-direction: column;
-      text-align: center;
+    .footer {
+      padding: 3rem 1.25rem 2.5rem;
     }
   }
 </style>
