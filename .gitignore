@@ -1,9 +1,7 @@
-# build output
+# build
 dist/
-.output/
-
-# generated types
-.astro/
+dist-ssr/
+*.local
 
 # dependencies
 node_modules/
@@ -14,12 +12,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
+# env
 .env
 .env.production
-
-# macOS-specific files
-.DS_Store
+.env.*.local
 
 # IDE
 .vscode/
@@ -28,3 +24,5 @@ pnpm-debug.log*
 *.swo
 *~
 
+# OS
+.DS_Store
