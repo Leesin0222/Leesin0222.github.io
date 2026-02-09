@@ -133,3 +133,15 @@ a:hover {
   background: color-mix(in srgb, var(--text-secondary) 80%, var(--accent-color) 20%);
 }
 
+/* 섹션 공통 */
+.section {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 활동 카드 호버 강조 (다크 모드 대응) */
+:global(.activity-card):hover {
+  border-color: color-mix(in srgb, var(--accent-color) 40%, var(--border-color));
+}
+

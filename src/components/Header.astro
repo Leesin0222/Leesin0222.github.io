@@ -1,25 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
-import Search from './Search.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { siteConfig } from '../config/site';
-
-const posts = await getCollection('blog');
-const postsData = posts.map(post => ({
-  slug: post.slug,
-  title: post.data.title,
-  content: post.body,
-}));
 ---
 
 <header class="header">
   <div class="header-container">
-    <h1 class="blog-title">
+    <h1 class="site-title">
       <a href="/">{siteConfig.title}</a>
     </h1>
-    
+
     <div class="header-right">
-      <Search posts={postsData} />
       <ThemeToggle />
       <nav class="header-links">
         {siteConfig.links.map((link) => (
@@ -31,7 +21,6 @@ const postsData = posts.map(post => ({
     </div>
   </div>
 </header>
-
 
 <style>
   .header {
@@ -58,20 +47,20 @@ const postsData = posts.map(post => ({
     gap: 2rem;
   }
 
-  .blog-title {
+  .site-title {
     margin: 0;
     font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
 
-  .blog-title a {
+  .site-title a {
     text-decoration: none;
     color: var(--text-primary);
     transition: color 0.2s ease;
   }
 
-  .blog-title a:hover {
+  .site-title a:hover {
     color: var(--accent-color);
   }
 
@@ -120,4 +109,3 @@ const postsData = posts.map(post => ({
     }
   }
 </style>
-

@@ -1,74 +1,224 @@
 ---
-import { getCollection } from 'astro:content';
 import BlogLayout from '../layouts/BlogLayout.astro';
 import { siteConfig } from '../config/site';
-
-const posts = await getCollection('blog');
-const sortedPosts = posts.sort((a, b) => 
-  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
 ---
 
-<BlogLayout title={siteConfig.title} content="">
-  <h1>최근 글</h1>
-  <ul class="post-list">
-    {sortedPosts.map((post) => (
-      <li class="post-item">
-        <a href={`/${post.slug}`} class="post-link">
-          <h2>{post.data.title}</h2>
-          {post.data.description && (
-            <p class="post-description">{post.data.description}</p>
-          )}
-          <time class="post-date">
-            {post.data.pubDate.toLocaleDateString('ko-KR')}
-          </time>
-        </a>
-      </li>
-    ))}
-  </ul>
+<BlogLayout title={siteConfig.title}>
+  <section id="hero" class="hero">
+    <p class="hero-motto">{siteConfig.motto}</p>
+    <p class="hero-brand">{siteConfig.title}</p>
+  </section>
+
+  <section id="about" class="section about">
+    <div class="section-inner">
+      <h2 class="section-title">소개</h2>
+      <p class="about-lead">주체는 모두 이용진에게 있습니다.</p>
+      <p class="about-text">
+        yongjincompany는 이용진이 하고 싶은 것만 하는 공간입니다.
+        지금까지는 음악 아티스트 <strong>유백 (UBACK)</strong>으로 활동하고 있고,
+        미연시 게임 <strong>Uchat</strong>을 만들고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <section id="activity" class="section activity">
+    <div class="section-inner">
+      <h2 class="section-title">활동</h2>
+      <p class="activity-subtitle">지금 하고 있는 것</p>
+      <div class="activity-grid">
+        {siteConfig.activities.map((item) => (
+          <a href={item.url} class="activity-card">
+            <div class="activity-card-image">
+              {item.image ? (
+                <img src={item.image} alt={`${item.name} (예시)`} width="120" height="120" />
+              ) : null}
+            </div>
+            <h3 class="activity-card-title">{item.name}</h3>
+            <p class="activity-card-desc">{item.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact" class="footer">
+    <div class="footer-inner">
+      <p class="footer-brand">{siteConfig.title}</p>
+      <a href={`mailto:${siteConfig.contact.email}`} class="footer-contact">
+        {siteConfig.contact.label}
+      </a>
+    </div>
+  </footer>
 </BlogLayout>
 
 <style>
-  .post-list {
-    list-style: none;
-    padding: 0;
+  .hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(180deg, var(--page-background) 0%, color-mix(in srgb, var(--accent-color) 8%, var(--page-background)) 100%);
+  }
+
+  .hero-motto {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .hero-brand {
     margin: 0;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 600;
+    color: var(--text-secondary);
   }
 
-  .post-item {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
+  .section {
+    padding: 4rem 2rem;
   }
 
-  .post-item:last-child {
-    border-bottom: none;
+  .section-inner {
+    max-width: 720px;
+    margin: 0 auto;
   }
 
-  .post-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: transform 0.2s;
-  }
-
-  .post-link:hover {
-    transform: translateX(4px);
-  }
-
-  .post-link h2 {
-    margin: 0 0 0.5rem 0;
+  .section-title {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+    font-weight: 700;
     color: var(--text-primary);
   }
 
-  .post-description {
-    color: var(--text-secondary);
-    margin: 0.5rem 0;
+  .about-lead {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
-  .post-date {
+  .about-text {
+    margin: 0;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+
+  .about-text strong {
+    color: var(--text-primary);
+  }
+
+  .activity-subtitle {
+    margin: 0 0 2rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .activity-card {
+    display: block;
+    padding: 1.75rem;
+    background: var(--content-background);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--layer-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .activity-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 40px rgba(22, 30, 45, 0.12);
+  }
+
+  .activity-card-image {
+    margin-bottom: 1.25rem;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .activity-card-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    color: var(--text-secondary);
+  }
+
+  .activity-card-title {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .activity-card-desc {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .footer {
+    padding: 3rem 2rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .footer-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    margin: 0;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .footer-contact {
+    color: var(--accent-color);
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .footer-contact:hover {
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 50vh;
+      padding: 3rem 1.5rem;
+    }
+
+    .section {
+      padding: 3rem 1.5rem;
+    }
+
+    .activity-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      text-align: center;
+    }
   }
 </style>
-

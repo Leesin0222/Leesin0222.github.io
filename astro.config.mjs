@@ -4,7 +4,7 @@ import remarkSlug from 'remark-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
-  site: 'https://leesin0222.github.io',
+  site: 'https://yongjincompany.com',
   base: '/',
   integrations: [mdx()],
   markdown: {
