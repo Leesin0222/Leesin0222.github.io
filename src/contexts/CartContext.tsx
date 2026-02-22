@@ -46,11 +46,6 @@ function saveStored(items: CartItem[]) {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(loadStored);
 
-  const persist = useCallback((next: CartItem[]) => {
-    setItems(next);
-    saveStored(next);
-  }, []);
-
   const addItem = useCallback(
     (product: Product, quantity = 1) => {
       setItems((prev) => {
