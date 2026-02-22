@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -7,16 +8,19 @@ interface HeroProps {
 
 export default function Hero({ motto, brand }: HeroProps) {
   return (
-    <section id="hero" className={styles.hero}>
+    <section id="hero" className={styles.hero} aria-label="메인 비주얼">
+      {/* 히어로 메인 비주얼(아티스트/컨셉 이미지): 배경에 이미지 넣을 경우 .heroBg에 background-image 설정 */}
+      <div className={styles.heroBg} data-placeholder="히어로 메인 비주얼 (아티스트/컨셉 이미지)" />
+      <div className={styles.overlay} />
       <div className={styles.inner}>
         <p className={styles.motto}>{motto}</p>
         <p className={styles.brand}>{brand}</p>
-        <a href="#about" className={styles.scroll} aria-label="소개로 스크롤">
+        <Link to="/#about" className={styles.scroll} aria-label="소개로 스크롤">
           <span className={styles.scrollText}>소개 보기</span>
           <svg className={styles.scrollIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
             <path d="M12 5v14M19 12l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-        </a>
+        </Link>
       </div>
     </section>
   );

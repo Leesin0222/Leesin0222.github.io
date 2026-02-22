@@ -1,16 +1,29 @@
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
-  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-md) var(--space-xl);
+  height: 60px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .header {
+  background: rgba(255, 255, 255, 0.75);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
 }
 
 .inner {
-  max-width: var(--content-max-width);
+  width: 100%;
+  max-width: var(--content-max-width-wide);
   margin: 0 auto;
+  padding: 0 var(--space-xl);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,14 +32,19 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .title a {
-  color: var(--color-text);
+  color: var(--color-footer-text);
   transition: color 0.2s;
+}
+
+[data-theme="light"] .title a {
+  color: var(--color-text);
 }
 
 .title a:hover {
@@ -39,6 +57,26 @@
   gap: var(--space-lg);
 }
 
+.right button {
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.right button:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] .header .right button {
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+[data-theme="light"] .header .right button:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+}
+
 .nav {
   display: flex;
   gap: var(--space-lg);
@@ -46,9 +84,11 @@
 
 .link {
   padding: var(--space-sm) 0;
-  font-size: 0.9rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
   border-bottom: 2px solid transparent;
   transition: color 0.2s, border-color 0.2s;
   min-height: 44px;
@@ -56,13 +96,21 @@
   align-items: center;
 }
 
+[data-theme="light"] .link {
+  color: var(--color-text-muted);
+}
+
 .link:hover {
-  color: var(--color-text);
+  color: var(--color-footer-text);
   border-bottom-color: var(--color-accent);
 }
 
+[data-theme="light"] .link:hover {
+  color: var(--color-text);
+}
+
 @media (max-width: 768px) {
-  .header {
-    padding: var(--space-md) var(--space-lg);
+  .header .inner {
+    padding: 0 var(--space-lg);
   }
 }

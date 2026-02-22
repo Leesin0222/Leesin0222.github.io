@@ -16,6 +16,7 @@
   --font-body: 'Outfit', 'Pretendard', system-ui, sans-serif;
 
   --content-max-width: 960px;
+  --content-max-width-wide: 1200px;
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -119,4 +120,27 @@ button:focus-visible {
 
 #root {
   min-height: 100vh;
+}
+
+main {
+  padding-top: 60px;
+}
+
+/* 풀폭 섹션: 배경은 edge-to-edge, 내용은 max-width 컨테이너 */
+.section-full {
+  width: 100%;
+}
+
+.section-full .section-inner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding-left: var(--space-xl);
+  padding-right: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .section-full .section-inner {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
 }
