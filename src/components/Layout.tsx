@@ -8,13 +8,15 @@ export default function Layout() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!location.hash) return;
-    const id = location.hash.slice(1);
-    const timer = setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-    return () => clearTimeout(timer);
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+    window.scrollTo(0, 0);
   }, [location.pathname, location.hash]);
 
   return (

@@ -57,6 +57,50 @@
   gap: var(--space-lg);
 }
 
+.cartLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 0.2s;
+}
+
+.cartLink:hover {
+  color: #fff;
+}
+
+[data-theme="light"] .cartLink {
+  color: var(--color-text-muted);
+}
+
+[data-theme="light"] .cartLink:hover {
+  color: var(--color-text);
+}
+
+.cartIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.cartBadge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: 9px;
+}
+
 .right button {
   color: rgba(255, 255, 255, 0.9);
   border-color: rgba(255, 255, 255, 0.25);

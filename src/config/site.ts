@@ -3,9 +3,8 @@ export const siteConfig = {
   description: "아티스트 유백(UBACK) 소개, 믹싱·마스터링, 앨범 구매",
   motto: "UBACK",
   links: [
-    { name: "소개", url: "/#about" },
+    { name: "홈", url: "/" },
     { name: "샵", url: "/shop" },
-    { name: "장바구니", url: "/cart" },
     { name: "믹싱·마스터링", url: "/#mixing" },
     { name: "연락처", url: "/#contact" },
   ],
