@@ -7,6 +7,7 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderCompletePage from './pages/OrderCompletePage';
 import InquiryPage from './pages/InquiryPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="order/:orderId" element={<OrderCompletePage />} />
             <Route path="inquiry" element={<InquiryPage />} />
+            <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
           </Route>
         </Routes>
       </CartProvider>

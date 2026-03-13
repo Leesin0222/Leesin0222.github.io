@@ -7,6 +7,7 @@ export const siteConfig = {
     { name: "샵", url: "/shop" },
     { name: "믹싱·마스터링", url: "/#mixing" },
     { name: "연락처", url: "/#contact" },
+    { name: "개인정보처리방침", url: "/privacy-policy" },
   ],
   contact: {
     email: "yongjinlee0222@gmail.com",
