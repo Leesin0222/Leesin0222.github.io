@@ -4,6 +4,7 @@ export const siteConfig = {
   motto: "UBACK",
   links: [
     { name: "홈", url: "/" },
+    { name: "Clokr", url: "/#clokr" },
     { name: "샵", url: "/shop" },
     { name: "믹싱·마스터링", url: "/#mixing" },
     { name: "연락처", url: "/#contact" },
