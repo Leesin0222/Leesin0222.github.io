@@ -6,7 +6,7 @@ export default function PrivacyPolicyPage() {
       <div className={styles.inner}>
         <p className={styles.label}>Privacy Policy</p>
         <h1 className={styles.title}>개인정보처리방침</h1>
-        <p className={styles.updatedAt}>시행일: 2026년 3월 13일</p>
+        <p className={styles.updatedAt}>시행일: 2026년 3월 13일 · 최종 검토: 2026년 3월 17일</p>
 
         <div className={styles.content}>
           <p>
@@ -117,7 +117,16 @@ export default function PrivacyPolicyPage() {
           <h2>Clokr 앱 개인정보처리방침</h2>
           <p>
             &apos;Clokr&apos;(이하 &apos;앱&apos;)는 사용자의 개인정보를 중요시하며, 개인정보 보호법 및 관련 법령을
-            준수합니다.
+            준수합니다. 앱은 <strong>Google 사용자 데이터</strong>(Google 계정 로그인 시 이메일·고유 ID 등)에 접근하며,
+            아래와 같이 사용·저장합니다. Google API에서 받은 정보는{' '}
+            <a
+              href="https://developers.google.com/terms/api-services-user-data-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google API 서비스 사용자 데이터 정책
+            </a>
+            을 포함한 적용 법령을 준수하여 사용합니다.
           </p>
 
           <h3>1. 수집하는 개인정보 항목</h3>

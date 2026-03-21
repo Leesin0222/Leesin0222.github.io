@@ -6,7 +6,7 @@ export default function SectionClokr() {
     <section id="clokr" className={styles.section}>
       <div className={styles.inner}>
         <p className={styles.label}>App</p>
-        <h2 className={styles.title}>Clokr 앱</h2>
+        <h2 className={styles.title}>Clokr</h2>
         <p className={styles.lead}>AI 기반 할 일 관리 · 리포트 앱</p>
         <p className={styles.body}>
           Clokr는 자연어로 할 일을 입력하면 AI가 우선순위, 마감 시간 등을 분석해 주는 할 일 관리 앱입니다. 하루 시작/종료
