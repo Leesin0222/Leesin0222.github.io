@@ -1,36 +1,46 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 import styles from './Hero.module.css';
 
-interface HeroProps {
-  motto: string;
-  brand: string;
-}
+export default function Hero() {
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
-export default function Hero({ motto, brand }: HeroProps) {
-  const location = useLocation();
-
-  const handleScrollToAbout = (e: React.MouseEvent) => {
-    if (location.pathname === '/') {
-      e.preventDefault();
-      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.history.pushState(null, '', '/#about');
-    }
-  };
+  useEffect(() => {
+    const el = titleRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const y = window.scrollY;
+      el.style.transform = `translateY(${y * 0.3}px)`;
+      el.style.opacity = `${1 - y / 800}`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <section id="hero" className={styles.hero} aria-label="메인 비주얼">
-      {/* 히어로 메인 비주얼(아티스트/컨셉 이미지): 배경에 이미지 넣을 경우 .heroBg에 background-image 설정 */}
-      <div className={styles.heroBg} data-placeholder="히어로 메인 비주얼 (아티스트/컨셉 이미지)" />
-      <div className={styles.overlay} />
-      <div className={styles.inner}>
-        <p className={styles.motto}>{motto}</p>
-        <p className={styles.brand}>{brand}</p>
-        <Link to="/#about" className={styles.scroll} aria-label="소개로 스크롤" onClick={handleScrollToAbout}>
-          <span className={styles.scrollText}>소개 보기</span>
-          <svg className={styles.scrollIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
-            <path d="M12 5v14M19 12l-7 7-7-7" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+    <section className={styles.hero}>
+      <div className={styles.content}>
+        <p className={styles.tag}>One Man, Infinite Possibilities</p>
+        <h1 ref={titleRef} className={styles.title}>
+          I Build What
+          <br />
+          I Want.
+        </h1>
+        <p className={styles.sub}>
+          leeyongjin이 하고 싶은 것만 만드는 회사.
+          <br />
+          기획, 디자인, 개발, 운영까지 혼자 다 합니다.
+        </p>
+        <div className={styles.actions}>
+          <a href="#contact" className={styles.cta}>
+            Get in Touch
+          </a>
+          <a href="#features" className={styles.ctaOutline}>
+            Our Services
+          </a>
+        </div>
+      </div>
+      <div className={styles.scrollIndicator}>
+        <span className={styles.scrollLine} />
       </div>
     </section>
   );

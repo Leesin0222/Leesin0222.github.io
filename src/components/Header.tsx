@@ -1,46 +1,26 @@
-import { Link } from 'react-router-dom';
-import ThemeToggle from './ThemeToggle';
-import { useCart } from '../contexts/CartContext';
+import { useState, useEffect } from 'react';
 import styles from './Header.module.css';
 
-type NavLink = { name: string; url: string };
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
 
-interface HeaderProps {
-  title: string;
-  links: readonly NavLink[];
-}
-
-export default function Header({ title, links }: HeaderProps) {
-  const { totalCount } = useCart();
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.inner}>
-        <h1 className={styles.title}>
-          <Link to="/">{title}</Link>
-        </h1>
-        <div className={styles.right}>
-          <ThemeToggle />
-          <nav className={styles.nav}>
-            {links.map((link) => (
-              <Link key={link.url} to={link.url} className={styles.link}>
-                {link.name}
-              </Link>
-            ))}
-          </nav>
-          <Link to="/cart" className={styles.cartLink} aria-label="장바구니">
-            <svg className={styles.cartIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 01-8 0" />
-            </svg>
-            {totalCount > 0 && (
-              <span className={styles.cartBadge} aria-label={`장바구니 ${totalCount}개`}>
-                {totalCount > 99 ? '99+' : totalCount}
-              </span>
-            )}
-          </Link>
-        </div>
+        <a href="#" className={styles.logo}>
+          yongjincompany
+        </a>
+        <nav className={styles.nav}>
+          <a href="#features">Services</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
       </div>
     </header>
   );
